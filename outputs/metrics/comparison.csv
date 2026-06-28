@@ -1,0 +1,10 @@
+metric,depressive,nondepressive
+nodes,200.0,200.0
+edges,18805.0,19007.0
+density,0.944975,0.955126
+avg_degree,188.05,190.07
+max_degree,199.0,199.0
+num_components,1.0,1.0
+largest_component_size,200.0,200.0
+avg_clustering_coefficient,0.9681,0.969
+modularity,0.1449,0.0892

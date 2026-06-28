@@ -1,0 +1,6 @@
+name,nodes,edges,density,avg_degree,max_degree,num_components,largest_component_size
+keyword_depressive,200,18805,0.944975,188.05,199,1,200
+keyword_nondepressive,200,19007,0.955126,190.07,199,1,200
+tweet_sim_depressive,1059,3189,0.005692,6.02,49,82,853
+tweet_sim_nondepressive,1171,4912,0.00717,8.39,69,54,1032
+combined_keyword,260,28309,0.840778,217.76,259,1,260
