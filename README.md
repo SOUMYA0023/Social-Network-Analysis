@@ -1,53 +1,103 @@
-# Social Network Analysis of Depressive vs Non-Depressive Tweets
+# 📊 Social Network Analysis of Depressive vs. Non-Depressive Tweets
 
-## Academic Context
+<div align="center">
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Badge"/>
+  <img src="https://img.shields.io/badge/Pandas-2.2-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas Badge"/>
+  <img src="https://img.shields.io/badge/NetworkX-3.3-orange?style=for-the-badge&logo=networkx&logoColor=white" alt="NetworkX Badge"/>
+  <img src="https://img.shields.io/badge/Matplotlib-3.8-11557C?style=for-the-badge&logo=matplotlib&logoColor=white" alt="Matplotlib Badge"/>
+  <img src="https://img.shields.io/badge/Seaborn-0.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Seaborn Badge"/>
+  <img src="https://img.shields.io/badge/Gephi-0.10.1-00A3E0?style=for-the-badge&logo=graph&logoColor=white" alt="Gephi Badge"/>
+  <img src="https://img.shields.io/badge/Git-2.45-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git Badge"/>
+  <img src="https://img.shields.io/badge/License-Academic_Use-blue?style=for-the-badge" alt="License Badge"/>
+</div>
 
-This project applies **Social Network Analysis (SNA)** techniques to a corpus of
-pre-labeled Twitter data (Dec 2019 – Dec 2020) from the IEEE DataPort. The goal is
-to understand how the *structural and relational properties* of depressive
-conversations differ from non-depressive ones at the network level — using graph
-theory and SNA metrics only. No machine learning or predictive modeling is used.
+---
 
-## Dataset
+## 📖 Academic & Project Context
 
-**Source:** IEEE DataPort — *"Depressive/Non-Depressive Tweets Between Dec'19 to Dec'20"*
+This repository contains a complete **Social Network Analysis (SNA)** project auditing and comparing the structural, relational, and community properties of depressive and non-depressive conversations on Twitter. 
 
-- 134,348 tweets labeled as depressive (`1`) or non-depressive (`0`)
-- Pre-cleaned text (lowercased, URLs/mentions/hashtags removed by the data provider)
-- Balanced distribution: ~68.7K depressive, ~65.7K non-depressive
+Using the **IEEE DataPort dataset ("Depressive/Non-Depressive Tweets Between Dec'19 to Dec'20")** containing **134,348 tweets** collected during the COVID-19 pandemic, we explore how positive control conversations differ from depressive conversations using **Graph Theory** and **SNA metrics only**. 
 
-> **Citation:** Place the original dataset in `data/raw/clean_tweet_Dec19ToDec20.csv`.
-> Do **not** modify raw data files.
+> [!IMPORTANT]
+> **Strict SNA Scope:** No machine learning, no AI classification, no predictive modeling of any kind is utilized. The dataset is already labeled with ground-truth sentiment, which we leverage to build separate parallel graphs.
 
-## Project Structure
+---
 
+## 🛠️ Technology Stack & Library Logos
+We use the following libraries for graph construction, data cleaning, and modularity calculations:
+
+*   **[Python 3.12](https://www.python.org/)** — Core coding environment.
+*   **[Pandas](https://pandas.pydata.org/)** — Data loading, cleaning, and table exports.
+*   **[NetworkX](https://networkx.org/)** — Graph data structure and graph-theoretic metric computation.
+*   **[Python-Louvain](https://github.com/taynaud/python-louvain)** — Community detection and modularity score optimization.
+*   **[Matplotlib](https://matplotlib.org/) & [Seaborn](https://seaborn.pydata.org/)** — Publication-quality degree distribution histograms and comparison charts.
+*   **[Gephi](https://gephi.org/)** — External tool used for high-fidelity force-directed layouts (OpenOrd/Yifan Hu) of exported graphs.
+
+---
+
+## 🗺️ Project Pipeline & Execution Flow
+
+Below is the end-to-end data pipeline showing how raw CSV tweets are cleaned, built into networks, mathematically analyzed, plotted, and exported:
+
+```mermaid
+graph TD
+    A[Raw CSV: clean_tweet_Dec19ToDec20.csv] --> B[preprocess.py]
+    B -->|Clean Text & Stopwords| C[all_tweets_processed.csv]
+    B -->|Top 200 Keywords| D[top_keywords_depressive.csv]
+    B -->|Top 200 Keywords| E[top_keywords_nondepressive.csv]
+    C & D & E --> F[build_graph.py]
+    F -->|Constructs 5 Graphs| G[outputs/graphs/all_graphs.pkl]
+    G --> H[metrics.py]
+    H -->|Computes SNA Stats| I[outputs/metrics/*.csv]
+    H -->|Attaches communities & centralities| J[all_graphs.pkl updated]
+    J --> K[export.py]
+    J --> L[visualize.py]
+    J --> M[summary.py]
+    K -->|GEXF & GraphML| N[outputs/graphs/*.gexf & *.graphml]
+    L -->|Matplotlib / Seaborn| O[outputs/metrics/plots/*.png]
+    M -->|Consolidates CSV| P[outputs/metrics/summary.csv]
 ```
+
+---
+
+## 📂 Repository Directory Tree
+
+```directory
 sna-depression-tweets/
 ├── data/
-│   └── raw/                  ← original dataset (never modified)
-├── notebooks/                ← exploratory work
-├── src/
-│   ├── preprocess.py         ← data loading, cleaning, keyword extraction
-│   ├── build_graph.py        ← network construction (3 graph types)
-│   ├── metrics.py            ← all SNA metric computations
-│   ├── export.py             ← export to Gephi-compatible formats
-│   └── visualize.py          ← degree distribution & comparison plots
+│   ├── raw/                  ← Original dataset csv (excluded from git tracking)
+│   └── processed/            ← Preprocessed CSV files and top keyword lists
+├── notebooks/                ← Scratchpads & exploratory code
+├── src/                      ← Source code python package
+│   ├── __init__.py
+│   ├── preprocess.py         ← Text cleaning and keyword extraction
+│   ├── build_graph.py        ← Graph construction (Co-occurrence, Similarity, Combined)
+│   ├── metrics.py            ← Calculates density, centrality, Louvain partitions
+│   ├── export.py             ← Exporter for Gephi (.gexf / .graphml)
+│   ├── visualize.py          ← Plotting degree distributions & metrics
+│   └── summary.py            ← Console reports and summary.csv generation
 ├── outputs/
-│   ├── graphs/               ← .gexf and .graphml exports
-│   └── metrics/              ← CSV exports of computed metrics
-├── report/                   ← final write-up and screenshots
-├── requirements.txt
-└── README.md
+│   ├── graphs/               ← Gephi files (.gexf / .graphml) and binary pickle
+│   └── metrics/              ← CSV files & degree distribution plots
+├── report/                   ← Gephi layout screenshots & written summaries
+├── PROJECT_AUDIT.md          ← Consolidated full academic viva guide
+├── requirements.txt          ← Python dependencies
+└── README.md                 ← Consolidated landing page documentation
 ```
 
-## Installation
+---
 
+## ⚙️ Installation & Running the Pipeline
+
+### 1. Prerequisite Setup
+Clone the repository, create a Python virtual environment, and install all required libraries:
 ```bash
 # Clone the repository
 git clone https://github.com/SOUMYA0023/Social-Network-Analysis.git
 cd Social-Network-Analysis/sna-depression-tweets
 
-# Create a virtual environment (recommended)
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
@@ -55,89 +105,60 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## How to Run
-
-Execute the scripts **in order** from the project root (`sna-depression-tweets/`):
-
+### 2. Execute Pipeline Steps in Order
 ```bash
-# Step 1: Load and preprocess the data, extract keywords
-python -m src.preprocess
+# Preprocess the raw tweets
+python3 -m src.preprocess
 
-# Step 2: Build all three network graphs
-python -m src.build_graph
+# Construct the networks (Keyword Co-occurrence, Tweet Similarity, Combined)
+python3 -m src.build_graph
 
-# Step 3: Compute SNA metrics for all graphs
-python -m src.metrics
+# Calculate all graph-theoretic metrics
+python3 -m src.metrics
 
-# Step 4: Export graphs to Gephi-compatible formats (.gexf / .graphml)
-python -m src.export
+# Export networks as GEXF & GraphML for Gephi
+python3 -m src.export
 
-# Step 5: Generate degree distribution plots and comparison charts
-python -m src.visualize
+# Plot degree distributions and metrics
+python3 -m src.visualize
+
+# Generate the consolidated summary CSV
+python3 -m src.summary
 ```
 
-## Output Files
+---
 
-### `outputs/graphs/`
-| File | Description |
-|------|-------------|
-| `keyword_depressive.gexf` / `.graphml` | Keyword co-occurrence network for depressive tweets |
-| `keyword_nondepressive.gexf` / `.graphml` | Keyword co-occurrence network for non-depressive tweets |
-| `tweet_similarity_depressive.gexf` / `.graphml` | Tweet similarity network (depressive subset, sampled) |
-| `tweet_similarity_nondepressive.gexf` / `.graphml` | Tweet similarity network (non-depressive subset, sampled) |
-| `combined_keyword.gexf` / `.graphml` | Merged keyword network with category tags |
+## 📊 Summary of Computed SNA Metrics
 
-### `outputs/metrics/`
-| File | Description |
-|------|-------------|
-| `basic_metrics.csv` | Node/edge counts, density, avg degree for all graphs |
-| `centrality_depressive.csv` | Top-20 centrality scores (depressive keyword network) |
-| `centrality_nondepressive.csv` | Top-20 centrality scores (non-depressive keyword network) |
-| `communities.csv` | Community assignments and modularity scores |
-| `comparison.csv` | Side-by-side metric comparison (depressive vs non-depressive) |
-| `bridge_nodes.csv` | High-betweenness nodes connecting communities |
-| `exclusive_keywords.csv` | Keywords unique to depressive / non-depressive networks |
-| `summary.csv` | Complete summary of all SNA metrics |
+Running the pipeline calculates the following values across our graph models (results are side-by-side in `outputs/metrics/summary.csv`):
 
-### `outputs/metrics/plots/`
-| File | Description |
-|------|-------------|
-| `degree_distribution_*.png` | Degree distribution histograms |
-| `metric_comparison.png` | Bar chart comparing key metrics |
+| Network Category | Metric | Depressive Group (Subset 0 in Code) | Control Group (Subset 1 in Code) | Combined Network |
+| :--- | :--- | :---: | :---: | :---: |
+| **Keyword Network** | Nodes | 200 | 200 | 260 |
+| | Edges | 19,007 | 18,805 | 28,309 |
+| | Density | 0.9551 | 0.9450 | 0.8408 |
+| | Avg Degree | 190.07 | 188.05 | — |
+| | Avg Clustering Coeff | 0.9690 | 0.9681 | 0.9168 |
+| | Communities (Louvain) | 4 | 4 | 5 |
+| | Modularity Score | **0.0892** | **0.1449** | 0.1346 |
+| **Tweet Similarity** | Nodes (sampled) | 1,171 | 1,059 | — |
+| | Edges | 4,912 | 3,189 | — |
+| | Density | 0.00717 | 0.00569 | — |
+| | Avg Degree | 8.39 | 6.02 | — |
+| | Communities (Louvain) | 73 | 100 | — |
+| | Modularity Score | **0.7830** | **0.8226** | — |
 
-## SNA Metrics Computed
+---
 
-### Basic Network Statistics
-- **Node/Edge count**: Network size and connectivity
-- **Density**: Proportion of possible edges that exist (sparse vs dense)
-- **Average degree**: Mean connections per node
+## 💡 Key Research Insights
 
-### Centrality Measures
-- **Degree centrality**: Most connected keywords — topical hubs
-- **Betweenness centrality**: Keywords that bridge different conversational clusters
-- **Closeness centrality**: Keywords closest to all others — core discourse terms
-- **PageRank**: Importance weighted by neighbor importance (recursive influence)
+1.  **Semantic Repetitiveness**: Depressive discourse shows **lower modularity** ($0.0892$ vs $0.1449$) and **higher density** in keyword co-occurrences. This indicates that depressive conversations are structurally more uniform and integrated, repeatedly using the same negative feelings, symptoms, and topics across contexts.
+2.  **Structural Consolidation**: Depressive tweets form **fewer connected components** (54 vs 82) and **fewer communities** (73 vs 100) in the similarity network compared to positive tweets. Positive control conversations cover a wider variety of separate topics, while depressive conversations focus on a smaller, more cohesive set of themes.
+3.  **Bridge & Hub Nodes**: Public health terms like `health`, `govt`, and `cases` act as major bridges in the combined keyword network. The top central nodes in the depressive network are `broken`, `sad`, `india`, `awful`, and `health`, showing how closely the distress was linked to the pandemic context.
 
-### Clustering & Community
-- **Clustering coefficient**: How tightly neighbors are interconnected
-- **Connected components**: Fragmentation of the network
-- **Louvain community detection**: Identifies topic clusters within each network
-- **Modularity**: Strength of community structure (higher = more distinct clusters)
+---
 
-### Cross-Network Comparison
-- All metrics compared side-by-side for depressive vs non-depressive networks
-- **Exclusive keywords**: Terms appearing only in one category
-- **Bridge nodes**: High-betweenness keywords connecting depressive and non-depressive discourse
+## 🎓 Viva Voice Exam Preparation
+For a detailed guide on how to defend this project, including **20 common exam questions** covering graph construction decisions, limitations, modularity interpretations, and library choices, please refer to our comprehensive study guide:
 
-## Why These Metrics?
-
-These metrics reveal how depressive discourse *structurally differs* from
-non-depressive discourse. For example:
-- Higher **density** in depressive networks may indicate more repetitive, circular language
-- Different **community structures** reveal distinct topic clusters in each category
-- **Bridge nodes** identify keywords that connect depressive and non-depressive conversations
-- **Exclusive keywords** highlight vocabulary unique to each emotional state
-
-## License
-
-Academic use only. Dataset subject to IEEE DataPort terms of use.
+👉 **[PROJECT_AUDIT.md](file:///Users/soumyasumankar/Desktop/SNA/sna-depression-tweets/PROJECT_AUDIT.md)**
