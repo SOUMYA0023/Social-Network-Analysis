@@ -1,0 +1,24 @@
+category,metric,depressive,nondepressive,combined
+Keyword Network,Nodes,200,200,260
+Keyword Network,Edges,18805,19007,28309
+Keyword Network,Density,0.945,0.9551,0.8408
+Keyword Network,Avg Degree,188.05,190.07,—
+Keyword Network,Max Degree,199,199,—
+Keyword Network,Avg Clustering Coeff,0.9681,0.969,0.9168
+Keyword Network,Connected Components,1,1,1
+Keyword Network,Communities (Louvain),4,4,5
+Keyword Network,Modularity Score,0.1449,0.0892,0.1346
+Keyword Network,Top-5 Degree Centrality Nodes,"please, happy, love, best, keep","stop, give, today, nothing, already",—
+Keyword Network,Top-5 Betweenness Centrality Nodes,"talented, understanding, cases, policy, ace","focused, education, pakistan, china, rape",—
+Keyword Network,Top-5 PageRank Nodes,"india, love, health, nice, life","broken, sad, india, awful, health",—
+Tweet Similarity Network,Nodes (sampled),1059,1171,—
+Tweet Similarity Network,Edges,3189,4912,—
+Tweet Similarity Network,Density,0.005692,0.00717,—
+Tweet Similarity Network,Avg Degree,6.02,8.39,—
+Tweet Similarity Network,Avg Clustering Coeff,0.3584,0.4054,—
+Tweet Similarity Network,Connected Components,82,54,—
+Tweet Similarity Network,Communities (Louvain),100,73,—
+Tweet Similarity Network,Modularity Score,0.8226,0.783,—
+Cross-Network Analysis,Shared Keywords,140,140,140
+Cross-Network Analysis,Exclusive Keywords,60,60,—
+Cross-Network Analysis,Top-5 Bridge Nodes (Betweenness),"talented, understanding, focused, cases, ace","talented, understanding, focused, cases, ace","talented, understanding, focused, cases, ace"
